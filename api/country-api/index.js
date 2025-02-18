@@ -2,9 +2,18 @@ const express = require('express');
 const cors = require('cors'); // CORS desteği eklemek için
 const app = express();
 
-// CORS orta katmanını ekle
-app.use(cors());
+const rateLimit = require('express-rate-limit')
 
+// CORS orta katmanını ekle
+
+const limiter = rateLimit ({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+    message: "Too many requests, please try again later."
+});
+
+app.use(limiter);
+app.use(cors());
 // Ülkeler listesi
 const countries = [
     { name: 'Afghanistan', code: 'AF' },
@@ -18,7 +27,7 @@ const countries = [
 ];
 
 // Ülkeler API rotaları
-app.get('/api/countries', (req, res) => {
+app.get('/api/countries',  (req, res) => {
     res.json(countries);
 });
 
