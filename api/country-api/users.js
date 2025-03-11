@@ -1,9 +1,20 @@
 const express = require('express');
 const cors = require('cors'); // CORS desteği eklemek için
+const rateLimit = require('express-rate-limit');
 const app = express();
 
 // CORS orta katmanını ekle
 app.use(cors());
+
+// Rate limiting middleware
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, 
+    max: 100, // Limit each IP to 100 requests per windowMs
+    message: { error: "Too many requests, please try again later." }
+});
+
+// Apply rate limiting to all API routes
+app.use('/api/', limiter);
 
 // Kullanıcılar listesi
 const users = [
