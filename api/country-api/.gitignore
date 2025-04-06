@@ -1,0 +1,21 @@
+# Ignore node_modules
+/node_modules
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Environment files
+.env
+
+# Editor & OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Build folders
+dist/
+build/
+coverage/
