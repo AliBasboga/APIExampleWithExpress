@@ -1,30 +1,31 @@
-const express = require('express');
-const cors = require('cors'); // CORS desteği eklemek için
+import express from "express"
+import cors from "cors"
+import 'dotenv/config'
+import {limiter} from "./middleware/middleware.js";
+import {countries} from "./countriesOfTheWorld.js"
+// const cors = require('cors'); // CORS desteği eklemek için
 const app = express();
 
 // CORS orta katmanını ekle
 app.use(cors());
+app.use(limiter)
 
 // Ülkeler listesi
-const countries = [
-    { name: 'Afghanistan', code: 'AF' },
-    { name: 'Albania', code: 'AL' },
-    { name: 'Algeria', code: 'DZ' },
-    { name: 'Andorra', code: 'AD' },
-    { name: 'Angola', code: 'AO' },
-    { name: 'Turkey', code: 'TR' },
-    { name: 'United States', code: 'US' },
-    { name: 'United Kingdom', code: 'GB' }
-];
+// const countries = [
+//     { name: 'Afghanistan', code: 'AF' },
+//     { name: 'Albania', code: 'AL' },
+//     { name: 'Algeria', code: 'DZ' },
+//     { name: 'Andorra', code: 'AD' },
+//     { name: 'Angola', code: 'AO' },
+//     { name: 'Turkey', code: 'TR' },
+//     { name: 'United States', code: 'US' },
+//     { name: 'United Kingdom', code: 'GB' }
+// ];
 
 // Ülkeler API rotaları
-app.get('/api/countries', (req, res) => {
-    res.json(countries);
-});
-
 app.get('/api/countries/:code', (req, res) => {
     const code = req.params.code.toUpperCase();
-    const country = countries.find(c => c.code === code);
+    const country = countries.find(country => country.code === code);
     if (country) {
         res.json(country);
     } else {
@@ -33,7 +34,7 @@ app.get('/api/countries/:code', (req, res) => {
 });
 
 // Sunucuyu başlat
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.APP_PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
