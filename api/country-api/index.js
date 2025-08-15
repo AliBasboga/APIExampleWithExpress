@@ -33,6 +33,10 @@ app.get('/api/countries/:code', (req, res) => {
     }
 });
 
+app.get('/api/flags', (req, res) => {
+  res.json(countries);
+});
+
 // Sunucuyu başlat
 const PORT = process.env.APP_PORT || 3000;
 app.listen(PORT, () => {
